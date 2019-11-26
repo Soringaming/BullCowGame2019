@@ -1,0 +1,9 @@
+{
+	"files.exclude": {
+		"C:/Users/Sorin/OneDrive/Documents/repos/UnrealEngine4/BullCowGame/BullCowGame2019/BullCowGame-starter-kit/.vs": true,
+		"C:/Users/Sorin/OneDrive/Documents/repos/UnrealEngine4/BullCowGame/BullCowGame2019/BullCowGame-starter-kit/.vscode": true,
+		"C:/Users/Sorin/OneDrive/Documents/repos/UnrealEngine4/BullCowGame/BullCowGame2019/BullCowGame-starter-kit/Content": true,
+		"C:/Users/Sorin/OneDrive/Documents/repos/UnrealEngine4/BullCowGame/BullCowGame2019/BullCowGame-starter-kit/Intermediate": true,
+		"C:/Users/Sorin/OneDrive/Documents/repos/UnrealEngine4/BullCowGame/BullCowGame2019/BullCowGame-starter-kit/Saved": true
+	}
+}
