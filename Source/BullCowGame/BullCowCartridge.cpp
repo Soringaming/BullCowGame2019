@@ -5,10 +5,8 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
-    /*Welcome Message and hidden word
-    TODO Randomize the hidden word.
-    */
-    HiddenWord = TEXT("Rakes");
+    //Initialize the game
+    SetupGame();
 
     // Welcome the player
     PrintLine(TEXT("       Welcome to Bulls and Cows!"));
@@ -18,19 +16,22 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     // Prompt Player for guess
 }
 
-void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
+void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
     ClearScreen();
 
     /* Basic game loop
         TODO Move this to it's own funtion
     */
-    if(Input == HiddenWord) {
+    if (Input == HiddenWord)
+    {
         PrintLine(TEXT("Your word was: ") + Input);
         PrintLine(TEXT("You Win!"));
-    } else if (Input.IsEmpty()){
+    } else if (Input.IsEmpty())
+    {
         PrintLine(TEXT("Input your guess for a five letter isogram")); // TODO Magic Number removal
-    } else {
+    } else
+    {
         PrintLine(TEXT("Your word was: ") + Input);
         PrintLine(TEXT("You lose!"));
     }
@@ -50,4 +51,11 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     check user input
     PlayAgain or Quit
 */
+}
+
+void UBullCowCartridge::SetupGame()
+{
+    HiddenWord = TEXT("Rakes");
+    // TODO Randomize hidden word
+    Lives = 5;
 }
