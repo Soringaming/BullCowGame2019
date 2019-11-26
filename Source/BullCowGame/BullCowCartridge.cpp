@@ -7,10 +7,12 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
     //Initialize the game
     SetupGame();
+    PrintLine(TEXT("DEBUG: The hidden word is: %s"), *HiddenWord);
 
     // Welcome the player
-    PrintLine(TEXT("       Welcome to Bulls and Cows!"));
-    PrintLine(TEXT("Press 'Tab', and then 'Enter' to start!"));
+    PrintLine(TEXT("Welcome to Bulls and Cows!"));
+    PrintLine(TEXT("Can you guess the %i letter isogram?"), HiddenWord.Len());
+    PrintLine(TEXT("Press 'Tab' to start typing your guess!"));
 
     // Set lives
     // Prompt Player for guess
@@ -25,14 +27,21 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
     */
     if (Input == HiddenWord)
     {
-        PrintLine(TEXT("Your word was: ") + Input);
+        PrintLine(TEXT("Your word was: %s"), *Input);
         PrintLine(TEXT("You Win!"));
-    } else if (Input.IsEmpty())
+    } 
+    else
     {
-        PrintLine(TEXT("Input your guess for a five letter isogram")); // TODO Magic Number removal
-    } else
-    {
-        PrintLine(TEXT("Your word was: ") + Input);
+        if (Input.IsEmpty())
+        {
+            PrintLine(TEXT("Input your guess for a %i letter isogram"), HiddenWord.Len()); // TODO Magic Number removal
+        } 
+        if (Input.Len() != HiddenWord.Len())
+        {
+            PrintLine(TEXT("Please input a %i letter isogram!"), HiddenWord.Len()); // TODO Magic Number removal
+        }
+
+        PrintLine(TEXT("Your word was: %s"), *Input);
         PrintLine(TEXT("You lose!"));
     }
     /*
@@ -55,7 +64,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("Rakes");
+    HiddenWord = TEXT("Bake");
     // TODO Randomize hidden word
     Lives = 5;
 }
