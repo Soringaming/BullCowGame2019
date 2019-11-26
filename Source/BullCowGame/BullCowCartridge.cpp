@@ -4,9 +4,12 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+    PrintLine(TEXT("       Welcome to Bulls and Cows!"));
+    PrintLine(TEXT("Press 'Tab', and then 'Enter' to start!"));
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
-
+    ClearScreen();
+    FString HiddenWord = TEXT("Rakes");
 }
