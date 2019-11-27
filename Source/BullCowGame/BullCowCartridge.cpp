@@ -18,20 +18,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
     } 
     else // checking PlayerGuess
     {
-        if (Input == HiddenWord) // Win
-        {
-            PrintLine(TEXT("You Win!"));
-            EndGame(); // play again
-        } 
-        else // Lose
-        {
-            if (Input.Len() != HiddenWord.Len()) // Check Length
-            {
-                PrintLine(TEXT("The Hidden word is %i characters long."), HiddenWord.Len());
-                PrintLine(TEXT("You have lost!"));
-                EndGame();
-            }
-        }
+        ProcessGuess(Input);
     }
     /*
     Check Isogram
@@ -52,7 +39,7 @@ void UBullCowCartridge::SetupGame()
     // Prompt Player for guess
     HiddenWord = TEXT("Bake");
     // TODO Randomize hidden word
-    Lives = 5;
+    Lives = HiddenWord.Len();
     bGameOver = false;
     WelcomePlayer();
 }
@@ -63,7 +50,33 @@ void UBullCowCartridge::WelcomePlayer()
     PrintLine(TEXT("DEBUG: The hidden word is: %s"), *HiddenWord);
     PrintLine(TEXT("Welcome to Bulls and Cows!"));
     PrintLine(TEXT("Can you guess the %i letter isogram?"), HiddenWord.Len());
+    PrintLine(TEXT("You have %i lives"), Lives);
     PrintLine(TEXT("Press 'Tab' to start typing your guess!"));
+}
+
+void UBullCowCartridge::ProcessGuess(FString Guess)
+{
+    if (Guess == HiddenWord) // Win
+    {
+        PrintLine(TEXT("You Win!"));
+        EndGame(); // play again
+    } 
+    else
+    {
+        PrintLine(TEXT("You have lost a life and \nhave %i lives left."), --Lives);
+        if(Lives > 0) 
+        {
+            if (Guess.Len() != HiddenWord.Len()) // Check Length
+            {
+                PrintLine(TEXT("The hidden isogram is %i characters long. \nAn isogram is a word without \nrepeating characters."), HiddenWord.Len());
+            }
+        } 
+        else 
+        {
+            PrintLine(TEXT("You have no lives left!"));
+            EndGame();
+        }
+    }   
 }
 
 void UBullCowCartridge::EndGame()
