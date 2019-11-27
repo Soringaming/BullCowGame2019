@@ -7,56 +7,40 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
     //Initialize the game
     SetupGame();
-    PrintLine(TEXT("DEBUG: The hidden word is: %s"), *HiddenWord);
-
-    // Welcome the player
-    PrintLine(TEXT("Welcome to Bulls and Cows!"));
-    PrintLine(TEXT("Can you guess the %i letter isogram?"), HiddenWord.Len());
-    PrintLine(TEXT("Press 'Tab' to start typing your guess!"));
-
-    // Set lives
-    // Prompt Player for guess
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
-    ClearScreen();
-
-    /* Basic game loop
-        TODO Move this to it's own funtion
-    */
-    if (Input == HiddenWord)
+    if(bGameOver) 
     {
-        PrintLine(TEXT("Your word was: %s"), *Input);
-        PrintLine(TEXT("You Win!"));
+        ClearScreen();
+        SetupGame();
     } 
-    else
+    else // checking PlayerGuess
     {
-        if (Input.IsEmpty())
+        if (Input == HiddenWord) // Win
         {
-            PrintLine(TEXT("Input your guess for a %i letter isogram"), HiddenWord.Len()); // TODO Magic Number removal
+            PrintLine(TEXT("You Win!"));
+            EndGame(); // play again
         } 
-        if (Input.Len() != HiddenWord.Len())
+        else // Lose
         {
-            PrintLine(TEXT("Please input a %i letter isogram!"), HiddenWord.Len()); // TODO Magic Number removal
+            if (Input.Len() != HiddenWord.Len()) // Check Length
+            {
+                PrintLine(TEXT("The Hidden word is %i characters long."), HiddenWord.Len());
+                PrintLine(TEXT("You have lost!"));
+                EndGame();
+            }
         }
-
-        PrintLine(TEXT("Your word was: %s"), *Input);
-        PrintLine(TEXT("You lose!"));
     }
     /*
     Check Isogram
         If not, promt for guess.
-    Check Length
-        If not, promt for guess.
-    Is it correct?
-        If yes Win
     Remove lives
         Are lives greater than 0?
         If yes GuessAgain
             Show lives left
         If no show GameOver and HiddenWord?
-    promt to play again
     check user input
     PlayAgain or Quit
 */
@@ -64,7 +48,26 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
+    // Set lives
+    // Prompt Player for guess
     HiddenWord = TEXT("Bake");
     // TODO Randomize hidden word
     Lives = 5;
+    bGameOver = false;
+    WelcomePlayer();
+}
+
+void UBullCowCartridge::WelcomePlayer()
+{
+    // Welcome the player
+    PrintLine(TEXT("DEBUG: The hidden word is: %s"), *HiddenWord);
+    PrintLine(TEXT("Welcome to Bulls and Cows!"));
+    PrintLine(TEXT("Can you guess the %i letter isogram?"), HiddenWord.Len());
+    PrintLine(TEXT("Press 'Tab' to start typing your guess!"));
+}
+
+void UBullCowCartridge::EndGame()
+{
+    bGameOver = true;
+    PrintLine(TEXT("Press enter to play again"));
 }
