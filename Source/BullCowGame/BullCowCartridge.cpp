@@ -32,7 +32,7 @@ void UBullCowCartridge::SetupGame()
     // PrintLine(TEXT("Letter 1 of the fake hidden word is: %c"), HW[0]);
 }
 
-void UBullCowCartridge::WelcomePlayer()
+void UBullCowCartridge::WelcomePlayer() const
 {
     // Welcome the player
     PrintLine(TEXT("Welcome to Bulls and Cows!"));
@@ -83,9 +83,13 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     PrintLine(TEXT("Guess again, you have %i lives left"), Lives);
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word)
+bool UBullCowCartridge::IsIsogram(FString Word) const
 {
     // For each letter
+    for(int32 Index = 0; Index < Word.Len(); Index++)
+    {
+        PrintLine(TEXT("%c"), Word[Index]);
+    }
     // Start at element [0]
     // Compare aginst the next letter.
     // until we reach [Word.len() - 1]
