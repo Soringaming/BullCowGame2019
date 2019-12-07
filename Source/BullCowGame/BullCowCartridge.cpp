@@ -5,6 +5,11 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
     SetupGame();
+    PrintLine(TEXT("The number of possible words is: %i"), Words.Num());
+    for(int Index = 0; Index < 5; Index++)
+    {
+        PrintLine(TEXT("%s"), *Words[Index]);
+    }
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
