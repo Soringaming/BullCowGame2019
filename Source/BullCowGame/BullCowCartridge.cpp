@@ -37,7 +37,7 @@ void UBullCowCartridge::WelcomePlayer() const
     // Welcome the player
     PrintLine(TEXT("Welcome to Bulls and Cows!"));
     PrintLine(TEXT("Can you guess the %i letter isogram?"), HiddenWord.Len());
-    PrintLine(TEXT("You have %i lives"), Lives);
+    PrintLine(TEXT("You have %i lives."), Lives);
     PrintLine(TEXT("Press 'Tab' to start typing your guess!"));
 }
 
@@ -62,7 +62,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     //Check Isogram
     if(!IsIsogram(Guess))
     {
-        PrintLine(TEXT("An isogram is a word without \nrepeating characters.\nTry again"));
+        PrintLine(TEXT("An isogram is a word without \nrepeating characters.\nTry again."));
         return;
     }
 
@@ -80,16 +80,23 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     } 
 
     // Show the player bulls and cows
-    PrintLine(TEXT("Guess again, you have %i lives left"), Lives);
+    PrintLine(TEXT("Guess again, you have %i lives left."), Lives);
 }
 
 bool UBullCowCartridge::IsIsogram(FString Word) const
 {
-    // For each letter
-    for(int32 Index = 0; Index < Word.Len(); Index++)
+
+    // int32 Index = 0;
+    // int32 Comparison = Index + 1;
+
+    for (int32 Index = 0, Comparison = Index + 1; Comparison < Word.Len(); Comparison++)
     {
-        PrintLine(TEXT("%c"), Word[Index]);
+        if(Word[Index] == Word[Comparison])
+        {
+            return false;
+        }
     }
+    
     // Start at element [0]
     // Compare aginst the next letter.
     // until we reach [Word.len() - 1]
@@ -100,5 +107,5 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
 void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
-    PrintLine(TEXT("\nPress enter to play again"));
+    PrintLine(TEXT("\nPress enter to play again."));
 }
