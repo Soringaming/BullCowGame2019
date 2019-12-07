@@ -1,5 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
+#include "HiddenWordList.h"
 
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
@@ -23,13 +23,10 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 void UBullCowCartridge::SetupGame()
 {
     // TODO Randomize hidden word
-    HiddenWord = TEXT("Bake");
+    HiddenWord = TEXT("Cakes");
     Lives = HiddenWord.Len();
     bGameOver = false;
     WelcomePlayer();
-    // const TCHAR HW[] = TEXT("plum");
-    // PrintLine(TEXT("Letter 1 of the hidden word is: %c"), HiddenWord[0]);
-    // PrintLine(TEXT("Letter 1 of the fake hidden word is: %c"), HW[0]);
 }
 
 void UBullCowCartridge::WelcomePlayer() const
