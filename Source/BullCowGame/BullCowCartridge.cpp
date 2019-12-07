@@ -5,7 +5,6 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
     SetupGame();
-    PrintLine(TEXT("The number of valid words is: %i"), GetVaildWords(Words).Num());
 }
 
 void UBullCowCartridge::OnInput(const FString& PlayerInput) // When the player hits enter
@@ -23,8 +22,7 @@ void UBullCowCartridge::OnInput(const FString& PlayerInput) // When the player h
 
 void UBullCowCartridge::SetupGame()
 {
-    // TODO Randomize hidden word
-    HiddenWord = TEXT("Cakes");
+    HiddenWord = GetVaildWords(Words)[FMath::RandRange(0, GetVaildWords(Words).Num() - 1)];
     Lives = HiddenWord.Len();
     bGameOver = false;
     WelcomePlayer();
@@ -111,12 +109,7 @@ TArray<FString> UBullCowCartridge::GetVaildWords(const TArray<FString>& WordList
             }
         }
     }
-
     return ValidWords;
-    // for(int32 Index = 0; Index < ValidWords.Num(); Index++)
-    // {
-    //     PrintLine(TEXT("%s."), *ValidWords[Index]);
-    // }
 }
 
 void UBullCowCartridge::EndGame()
