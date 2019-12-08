@@ -24,7 +24,7 @@ void UBullCowCartridge::OnInput(const FString& PlayerInput) // When the player h
 void UBullCowCartridge::SetupGame()
 {
     HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num() - 1)];
-    Lives = HiddenWord.Len();
+    Lives = HiddenWord.Len() * 2;
     bGameOver = false;
     WelcomePlayer();
 }
@@ -34,7 +34,10 @@ void UBullCowCartridge::WelcomePlayer() const
     // Welcome the player
     PrintLine(TEXT("Welcome to Bulls and Cows!"));
     PrintLine(TEXT("Can you guess the %i letter isogram?"), HiddenWord.Len());
+    // PrintLine(TEXT("The hidden word is: %s"), *HiddenWord); // debug
     PrintLine(TEXT("You have %i lives."), Lives);
+    PrintLine(TEXT("The first letter of the isogram is: %c"), HiddenWord[0]);
+    PrintLine(TEXT("Bull = Right letter in right place. \nCow = Right letter in wrong place."));
     PrintLine(TEXT("Press 'Tab' to start typing your guess!"));
 }
 
@@ -47,7 +50,7 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
         PrintLine(TEXT("You Win!"));
         EndGame(); // PlayAgain or Quit
         return;
-    } 
+    }
     
     // Check Length
     if (Guess.Len() != HiddenWord.Len())
@@ -77,6 +80,10 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
     } 
 
     // Show the player bulls and cows
+    FBullCowCount Score = GetBullCows(Guess);
+
+    PrintLine(TEXT("You have %i Bulls and %i Cows"), Score.Bulls, Score.Cows);
+
     PrintLine(TEXT("Guess again, you have %i lives left."), Lives);
 }
 
@@ -111,6 +118,29 @@ TArray<FString> UBullCowCartridge::GetVaildWords(const TArray<FString>& WordList
         }
     }
     return ValidWords;
+}
+
+FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess) const
+{
+    FBullCowCount Count;
+
+    for(int32 GuessIndex = 0; GuessIndex < Guess.Len(); GuessIndex++)
+    {
+        if(Guess[GuessIndex] == HiddenWord[GuessIndex])
+        {
+            Count.Bulls++;
+            continue;
+        }
+        for(int32 HiddenIndex = 0; HiddenIndex < HiddenWord.Len(); HiddenIndex++)
+        {
+            if(Guess[GuessIndex] == HiddenWord[HiddenIndex])
+            {
+                Count.Cows++;
+                break;
+            }
+        }
+    }
+    return Count;
 }
 
 void UBullCowCartridge::EndGame()
